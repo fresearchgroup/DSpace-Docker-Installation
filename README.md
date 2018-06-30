@@ -3,37 +3,39 @@
 
                               Steps for installation of DSpace with Docker
                               
-          Basic Requirements is that, we need a user account with "dspace" name. Otherwise, we have to change the all configration files of dspace-src folder.                  
                               
+# Requirement
 
-Step-1
-      Update your system
-      
-      $ sudo apt-get update
-Step-2
       Basic requirement for this installation process:
         Git, Docker, Docker-Compose
         
       $ sudo apt-get install git
+      $ sudo apt-get install apt-utils
   
    Docker - https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository
 
    Docker Compose -- https://docs.docker.com/compose/install/
+   
+# Intallation Steps   
 
-Step-3) Clone the Repository "Dspace-Labs/dspace-dev-docker"
+Step-1) Update the System
+
+      $ sudo apt-get update
+
+Step-2) Clone the Repository "Dspace-Labs/dspace-dev-docker"
        
-       $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
-       $ cd dspace-dev-docker
+      $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
+      $ cd dspace-dev-docker
 
-Step-4) Clone the DSpace Repository in dspace-src folder 
+Step-3) Clone the DSpace Repository in dspace-src folder 
       
       $ git clone -b dspace-6.0 https://github.com/DSpace/DSpace.git dspace-src
 
-Step-5) Also, add m2-repo and dspace-build folders.
+Step-4) Also, add m2-repo and dspace-build folders.
           
       $ mkdir m2-repo dspace-build
             
-Step-6) If you already have a working copy of DSpace checked out on your computer:
+Step-5) If you already have a working copy of DSpace checked out on your computer:
        
       $ ln -s /path/to/your/dspace/working/copy dspace-src
       
@@ -45,7 +47,7 @@ Step-6) If you already have a working copy of DSpace checked out on your compute
                   +-- m2-repo
    
 
-Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your user account name.
+Step-6) Changing Ownership of Folders to your Users.Replace "youruser" with your user account name.
       
       $ sudo chown -R youruser:youruser dspace-src dspace-build m2-repo
 
@@ -55,13 +57,13 @@ Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your
                
                
 
-Step -8) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config directories
+Step -7) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config directories
            
            $ cd dspace-src/dspace/config
 
-Step-9) Change the "local.cfg.EXAMPLE" file name with "local.cfg".
+Step-8) Change the "local.cfg.EXAMPLE" file name with "local.cfg".
 
-Step-10) Edit the "local.cfg" file with the reference bellow.
+Step-9) Edit the "local.cfg" file with the reference bellow.
 
       ##########################
       # SERVER CONFIGURATION   #
@@ -87,14 +89,14 @@ Basic Requirements:
       Also modify the "local.cfg" file in db.url with correct port for postgres.
       
       
-Step-11) To Activate the APIs of DSpace, Disable the SSL
+Step-10) To Activate the APIs of DSpace, Disable the SSL
 
       $ cd
       $ cd dspace-dev-docker
       $ gedit dspace-src/dspace-rest/src/main/webapp/WEB-INF/web.xml
       
       Comment out the <security-constraint> block. Save and Exit.
-      For Example:
+          For Example:
       
    <!--
     <security-constraint>
@@ -110,58 +112,54 @@ Step-11) To Activate the APIs of DSpace, Disable the SSL
    
       
 Step-11) Launch Docker-Compose
-        
-        $ cd
-        $ cd dspace-dev-docker
+       
         $ sudo docker-compose up -d
-Step-12) Once lanched, to get into developer account, first find the container id of "dspace-dev-docker_dspace-dev_1" using,
-      
-        $ sudo docker ps
         
-   Take the container id of "docker-dev-docker_dspace-dev" from above and use the same id in the next step.
+Step-12) Once lanched, to get into developer account, follow the step.
         
         $ sudo docker attach dspace-dev-docker_dspace-dev_1
-               
               
 Step-13) Compilation of DSpace inside the container
 
-       $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
+        $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
     
 Step-14) Once compiled the task' alias is available.Install the java webapps inside the container.
-
         
         $ task fresh_install
        
 Step-15) Now create a user for the DSpace
 
         $ dspace create-administrator
+        
 Step-16) Create web application shortcuts, type the followings
 
-        cd /var/lib/tomcat7/webapps
+        $ cd $CATALINA_HOME/webapps
         
-        sudo ln -s /home/dspace/webapps/solr
+        $ sudo ln -s /srv/dspace/webapps/solr
         
-        sudo ln -s /home/dspace/webapps/rest
+        $ sudo ln -s /srv/dspace/webapps/rest
         
-        sudo ln -s /home/dspace/webapps/oai
+        $ sudo ln -s /srv/dspace/webapps/oai
         
-        sudo ln -s /home/dspace/webapps/sword
+        $ sudo ln -s /srv/dspace/webapps/sword
         
 Step-17) Configure the default ROOT webapp
 
-        sudo rm -rf /var/lib/tomcat7/webapps/ROOT
+        $ sudo rm -rf /usr/local/tomcat/webapps/ROOT
         
-        cd /var/lib/tomcat7/webapps
+        $ cd /usr/local/tomcat/webapps
         
-        sudo ln -s /home/dspace/webapps/xmlui ROOT
+        $ sudo ln -s /srv/dspace/webapps/xmlui ROOT
         
+        $ cd /srv/dspace-src
+
 Step -16) Staring the server
 
-       $ tomcat start && catalina.out
+        $ tomcat start && catalina.out
        
 Step-17) Just start tomcat with the jpda option
 
-       $ tomcat jpda start
+        $ tomcat jpda start
        
  
  -----------------------------------------------------------------------------------------------------------------------

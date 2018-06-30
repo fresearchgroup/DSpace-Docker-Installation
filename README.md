@@ -4,7 +4,7 @@
                               Steps for installation of DSpace with Docker
                               
                               
-# Requirement
+# Requirements
 
       Basic requirement for this installation process:
         Git, Docker, Docker-Compose
@@ -16,7 +16,7 @@
 
    Docker Compose -- https://docs.docker.com/compose/install/
    
-# Intallation Steps   
+# Installation Steps   
 
 Step-1) Update the System
 

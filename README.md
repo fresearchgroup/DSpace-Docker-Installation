@@ -33,11 +33,19 @@ Step-5) Also, add m2-repo and dspace-build folders.
           
       $ mkdir m2-repo dspace-build
             
-Step-6) (Optional)  If you already have a working copy of DSpace checked out on your computer:
+Step-6) If you already have a working copy of DSpace checked out on your computer:
        
       $ ln -s /path/to/your/dspace/working/copy dspace-src
+      
+   NOTE : The folder structure is expected this type.
+               
+               dspace-dev-docker
+                  |-- dspace-src
+                  |-- dspace-build
+                  +-- m2-repo
+   
 
-Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your username of the machine.
+Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your user account name.
       
       $ sudo chown -R youruser:youruser dspace-src dspace-build m2-repo
 
@@ -51,7 +59,7 @@ Step -8) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config d
            
            $ cd dspace-src/dspace/config
 
-Step-9) Open the "local.cfg.EXAMPLE" file and copy its content and paste its content into new file "local.cfg"
+Step-9) Change the "local.cfg.EXAMPLE" file name with "local.cfg".
 
 Step-10) Edit the "local.cfg" file with the reference bellow.
 
@@ -59,18 +67,10 @@ Step-10) Edit the "local.cfg" file with the reference bellow.
       # SERVER CONFIGURATION   #
       ##########################
       dspace.dir=/srv/dspace
-
-      dspace.hostname = localhost
-
-      dspace.baseUrl = http://localhost:8080
-
-      dspace.ui = jspui
-
-      # Name of the site
-      dspace.name = DSpace Using Docker of My University
       
-      solr.server = http://localhost/solr
-
+      # Name of the site
+      dspace.name = OER for Collaboration System
+      
       ##########################
       # DATABASE CONFIGURATION #
       ##########################
@@ -87,23 +87,42 @@ Basic Requirements:
       Also modify the "local.cfg" file in db.url with correct port for postgres.
       
       
-      NOTE: 
+Step-11) To Activate the APIs of DSpace, Disable the SSL
+
+      $ cd
+      $ cd dspace-dev-docker
+      $ gedit dspace-src/dspace-rest/src/main/webapp/WEB-INF/web.xml
       
-      ******************To Activate APIs of DSpace, Disable the SSL******************************
-                To disable DSpace REST's requirement to require security/ssl, [dspace-source]/dspace-rest/src/main/webapp/WEB-INF/web.xml and comment out the <security-constraint> block.
+      Comment out the <security-constraint> block. Save and Exit.
+      For Example:
+      
+   <!--
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>DSpace REST API</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+   -->
+   
       
 Step-11) Launch Docker-Compose
-
-        $ docker-compose up -d
-Step-12) Once lanched, to get into developer account, first find the container id of "dspace-dev-docker_dspace-dev" using,
+        
+        $ cd
+        $ cd dspace-dev-docker
+        $ sudo docker-compose up -d
+Step-12) Once lanched, to get into developer account, first find the container id of "dspace-dev-docker_dspace-dev_1" using,
       
-        $ docker ps
+        $ sudo docker ps
         
    Take the container id of "docker-dev-docker_dspace-dev" from above and use the same id in the next step.
         
-        $ docker attach <container-id>
+        $ sudo docker attach <container-id>
                   
-                  Example: docker attach 9be4y7se3
+                  Example: sudo docker attach 9be4y7se3
               
 Step-13) Compilation of DSpace inside the container
 
@@ -117,14 +136,38 @@ Step-14) Once compiled the task' alias is available.Install the java webapps ins
 Step-15) Now create a user for the DSpace
 
         $ dspace create-administrator
+Step-16) Create web application shortcuts, type the followings
+
+        cd /var/lib/tomcat7/webapps
+        
+        sudo ln -s /home/dspace/webapps/solr
+        
+        sudo ln -s /home/dspace/webapps/rest
+        
+        sudo ln -s /home/dspace/webapps/oai
+        
+        sudo ln -s /home/dspace/webapps/sword
+        
+Step-17) Configure the default ROOT webapp
+
+        sudo rm -rf /var/lib/tomcat7/webapps/ROOT
+        
+        cd /var/lib/tomcat7/webapps
+        
+        sudo ln -s /home/dspace/webapps/xmlui ROOT
         
 Step -16) Staring the server
 
        $ tomcat start && catalina.out
+       
+Step-17) Just start tomcat with the jpda option
+
+       $ tomcat jpda start
+       
  
  -----------------------------------------------------------------------------------------------------------------------
  
-             Now open http://localhost:8080/xmlui/ , you can access the DSpace xml UI.
+             Now open http://localhost:8080/ , you can access the DSpace XMLUI.
       
       
 References:

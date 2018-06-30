@@ -120,9 +120,8 @@ Step-12) Once lanched, to get into developer account, first find the container i
         
    Take the container id of "docker-dev-docker_dspace-dev" from above and use the same id in the next step.
         
-        $ sudo docker attach <container-id>
-                  
-                  Example: sudo docker attach 9be4y7se3
+        $ sudo docker attach dspace-dev-docker_dspace-dev_1
+               
               
 Step-13) Compilation of DSpace inside the container
 

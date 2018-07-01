@@ -120,7 +120,7 @@ Step-11) Launch Docker-Compose
        
         $ sudo docker-compose up -d
         
-Step-12) Once lanched, to get into developer account, follow the step.
+Step-12) Once launched, to get into developer account, follow the step.
         
         $ sudo docker attach dspace-dev-docker_dspace-dev_1
               

@@ -92,7 +92,7 @@ Step-9) Edit the "local.cfg" file with the reference bellow.
       
       Have ports 8080 (tomcat), 5432 (postgresql), 1043 and 8000 (remote debugging) open.
       Otherwise, you can modify the mappings in docker-compose.yml file to use whichever ports you prefer.
-      Also modify the "local.cfg" file in db.url with correct port for postgres.
+      Also modify the db.url attribute in "local.cfg" file with correct port for postgres.
       
       
 Step-10) To Activate the APIs of DSpace, Disable the SSL

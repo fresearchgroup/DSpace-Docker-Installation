@@ -103,8 +103,7 @@ Step-10) To Activate the APIs of DSpace, Disable the SSL
       
       Comment out the <security-constraint> block. Save and Exit.
           For Example:
-      
-   <!--
+     <!- -
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>DSpace REST API</web-resource-name>
@@ -114,7 +113,7 @@ Step-10) To Activate the APIs of DSpace, Disable the SSL
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-   -->
+    -- >
    
       
 Step-11) Launch Docker-Compose

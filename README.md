@@ -27,16 +27,15 @@ Step-2) Clone the Repository "Dspace-Labs/dspace-dev-docker"
       $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
       $ cd dspace-dev-docker
 
-Step-3) Getting DSpace and Unpack DSpace
+Step-3) Getting DSpace and Unpack DSpace. Change the name dspace of the directory "dspace-6.0-src-release" to "dspace-src" and remove the tar.gz directory.
       
      
       $ wget https://github.com/DSpace/DSpace/releases/download/dspace-6.2/dspace-6.2-src-release.tar.gz
       
       $ tar -xzvf dspace-6.2-src-release.tar.gz
       
-  Change the name dspace of the directory "dspace-6.0-src-release" to "dspace-src" and remove the tar.gz directory.
-      
       $ mv dspace-6.2-src-release dspace-src
+      
       $ rm dspace-6.2-src-release.tar.gz
 
 Step-4) Also, add m2-repo and dspace-build folders.
@@ -88,9 +87,8 @@ Step-9) Edit the "local.cfg" file with the reference bellow.
       
       db.url = jdbc:postgresql://postgres:5432/dspace
      
-Basic Requirements:     
       
-      NOTE: 
+   NOTE: 
       
       Have ports 8080 (tomcat), 5432 (postgresql), 1043 and 8000 (remote debugging) open.
       Otherwise, you can modify the mappings in docker-compose.yml file to use whichever ports you prefer.

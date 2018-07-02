@@ -22,9 +22,17 @@ Step-1) Update the System
 
       $ sudo apt-get update
 
-Step-2) Clone the Repository "fresearchgroup/dspace-dev-docker"
+Step-2) Clone the Repository "fresearchgroup/DSpace-Docker-Installation"
        
-      $ git clone https://github.com/fresearchgroup/dspace-dev-docker.git
+      $ https://github.com/fresearchgroup/DSpace-Docker-Installation
+      
+Step-3) Move to the main working directory
+
+      $ cd DSpace-Docker-Installation/dspace-dev-docker
+      
+Step-4) Also, add m2-repo and dspace-build folders, which is useful while running the Containers.
+
+      $ mkdir m2-repo dspace-build
      
 Step-5) If you already have a working copy of DSpace checked out on your computer:
        
@@ -76,13 +84,13 @@ Step-9) Edit the "local.cfg" file with the reference bellow.
       
       Have ports 8080 (tomcat), 5432 (postgresql), 1043 and 8000 (remote debugging) open.
       Otherwise, you can modify the mappings in docker-compose.yml file to use whichever ports you prefer.
-      Also modify the db.url attribute in "local.cfg" file with correct port for postgres.
+      Also modify the attributes port in "local.cfg" file with correct ports.
       
       
 Step-10) To Activate the APIs of DSpace, Disable the SSL
 
       $ cd
-      $ cd dspace-dev-docker
+      $ cd DSpace-Docker-Installation/dspace-dev-docker
       $ gedit dspace-src/dspace-rest/src/main/webapp/WEB-INF/web.xml
       
       Comment out the <security-constraint> block. Save and Exit.

@@ -7,7 +7,7 @@
 # Requirements
 
       Basic requirement for this installation process:
-        Git, Docker, Docker-Compose
+        Git, apt-utils, Docker, Docker-Compose
         
       $ sudo apt-get install git
       $ sudo apt-get install apt-utils

@@ -22,26 +22,10 @@ Step-1) Update the System
 
       $ sudo apt-get update
 
-Step-2) Clone the Repository "Dspace-Labs/dspace-dev-docker"
+Step-2) Clone the Repository "fresearchgroup/dspace-dev-docker"
        
-      $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
-      $ cd dspace-dev-docker
-
-Step-3) Getting DSpace and Unpack DSpace. Change the name dspace of the directory "dspace-6.0-src-release" to "dspace-src" and remove the tar.gz directory.
-      
+      $ git clone https://github.com/fresearchgroup/dspace-dev-docker.git
      
-      $ wget https://github.com/DSpace/DSpace/releases/download/dspace-6.2/dspace-6.2-src-release.tar.gz
-      
-      $ tar -xzvf dspace-6.2-src-release.tar.gz
-      
-      $ mv dspace-6.2-src-release dspace-src
-      
-      $ rm dspace-6.2-src-release.tar.gz
-
-Step-4) Also, add m2-repo and dspace-build folders.
-          
-      $ mkdir m2-repo dspace-build
-            
 Step-5) If you already have a working copy of DSpace checked out on your computer:
        
       $ ln -s /path/to/your/dspace/working/copy dspace-src

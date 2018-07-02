@@ -62,7 +62,7 @@ Step -7) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config d
 
 Step-8) Change the "local.cfg.EXAMPLE" file name with "local.cfg".
 
-Step-9) Edit the "local.cfg" file with the reference bellow.
+Step-9) Edit the "local.cfg" file with the reference below.
 
       ##########################
       # SERVER CONFIGURATION   #

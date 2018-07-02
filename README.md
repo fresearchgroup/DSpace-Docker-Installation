@@ -24,7 +24,7 @@ Step-1) Update the System
 
 Step-2) Clone the Repository "fresearchgroup/DSpace-Docker-Installation"
        
-      $ https://github.com/fresearchgroup/DSpace-Docker-Installation
+      $ git clone https://github.com/fresearchgroup/DSpace-Docker-Installation
       
 Step-3) Move to the main working directory
 

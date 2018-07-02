@@ -3,41 +3,58 @@
 
                               Steps for installation of DSpace with Docker
                               
-          Basic Requirements is that, we need a user account with "dspace" name. Otherwise, we have to change the all configration files of dspace-src folder.                  
                               
+# Requirements
 
-Step-1
-      Update your system
-      
-      $ sudo apt-get update
-Step-2
       Basic requirement for this installation process:
         Git, Docker, Docker-Compose
         
       $ sudo apt-get install git
+      $ sudo apt-get install apt-utils
   
    Docker - https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository
 
    Docker Compose -- https://docs.docker.com/compose/install/
+   
+# Installation Steps   
 
-Step-3) Clone the Repository "Dspace-Labs/dspace-dev-docker"
+Step-1) Update the System
+
+      $ sudo apt-get update
+
+Step-2) Clone the Repository "Dspace-Labs/dspace-dev-docker"
        
-       $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
-       $ cd dspace-dev-docker
+      $ git clone https://github.com/DSpace-Labs/dspace-dev-docker.git
+      $ cd dspace-dev-docker
 
-Step-4) Clone the DSpace Repository in dspace-src folder 
+Step-3) Getting DSpace and Unpack DSpace. Change the name dspace of the directory "dspace-6.0-src-release" to "dspace-src" and remove the tar.gz directory.
       
-      $ git clone -b dspace-6.0 https://github.com/DSpace/DSpace.git dspace-src
+     
+      $ wget https://github.com/DSpace/DSpace/releases/download/dspace-6.2/dspace-6.2-src-release.tar.gz
+      
+      $ tar -xzvf dspace-6.2-src-release.tar.gz
+      
+      $ mv dspace-6.2-src-release dspace-src
+      
+      $ rm dspace-6.2-src-release.tar.gz
 
-Step-5) Also, add m2-repo and dspace-build folders.
+Step-4) Also, add m2-repo and dspace-build folders.
           
       $ mkdir m2-repo dspace-build
             
-Step-6) (Optional)  If you already have a working copy of DSpace checked out on your computer:
+Step-5) If you already have a working copy of DSpace checked out on your computer:
        
       $ ln -s /path/to/your/dspace/working/copy dspace-src
+      
+   NOTE : The folder structure is expected this type.
+               
+               dspace-dev-docker
+                  |-- dspace-src
+                  |-- dspace-build
+                  +-- m2-repo
+   
 
-Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your username of the machine.
+Step-6) Changing Ownership of Folders to your Users.Replace "youruser" with your user account name.
       
       $ sudo chown -R youruser:youruser dspace-src dspace-build m2-repo
 
@@ -47,30 +64,22 @@ Step-7) Changing Ownership of Folders to your Users.Replace "youruser" with your
                
                
 
-Step -8) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config directories
+Step -7) Find the "local.cfg.EXAMPLE" file inside the dspace-src/dspace/config directories
            
            $ cd dspace-src/dspace/config
 
-Step-9) Open the "local.cfg.EXAMPLE" file and copy its content and paste its content into new file "local.cfg"
+Step-8) Change the "local.cfg.EXAMPLE" file name with "local.cfg".
 
-Step-10) Edit the "local.cfg" file with the reference bellow.
+Step-9) Edit the "local.cfg" file with the reference bellow.
 
       ##########################
       # SERVER CONFIGURATION   #
       ##########################
       dspace.dir=/srv/dspace
-
-      dspace.hostname = localhost
-
-      dspace.baseUrl = http://localhost:8080
-
-      dspace.ui = jspui
-
-      # Name of the site
-      dspace.name = DSpace Using Docker of My University
       
-      solr.server = http://localhost/solr
-
+      # Name of the site
+      dspace.name = OER for Collaboration System
+      
       ##########################
       # DATABASE CONFIGURATION #
       ##########################
@@ -78,39 +87,48 @@ Step-10) Edit the "local.cfg" file with the reference bellow.
       
       db.url = jdbc:postgresql://postgres:5432/dspace
      
-Basic Requirements:     
       
-      NOTE: 
+   NOTE: 
       
       Have ports 8080 (tomcat), 5432 (postgresql), 1043 and 8000 (remote debugging) open.
       Otherwise, you can modify the mappings in docker-compose.yml file to use whichever ports you prefer.
-      Also modify the "local.cfg" file in db.url with correct port for postgres.
+      Also modify the db.url attribute in "local.cfg" file with correct port for postgres.
       
       
-      NOTE: 
+Step-10) To Activate the APIs of DSpace, Disable the SSL
+
+      $ cd
+      $ cd dspace-dev-docker
+      $ gedit dspace-src/dspace-rest/src/main/webapp/WEB-INF/web.xml
       
-      ******************To Activate APIs of DSpace, Disable the SSL******************************
-                To disable DSpace REST's requirement to require security/ssl, [dspace-source]/dspace-rest/src/main/webapp/WEB-INF/web.xml and comment out the <security-constraint> block.
+      Comment out the <security-constraint> block. Save and Exit.
+          For Example:
+     <!- -
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>DSpace REST API</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    -- >
+   
       
 Step-11) Launch Docker-Compose
-
-        $ docker-compose up -d
-Step-12) Once lanched, to get into developer account, first find the container id of "dspace-dev-docker_dspace-dev" using,
-      
-        $ docker ps
+       
+        $ sudo docker-compose up -d
         
-   Take the container id of "docker-dev-docker_dspace-dev" from above and use the same id in the next step.
+Step-12) Once launched, to get into developer account, follow the step.
         
-        $ docker attach <container-id>
-                  
-                  Example: docker attach 9be4y7se3
+        $ sudo docker attach dspace-dev-docker_dspace-dev_1
               
 Step-13) Compilation of DSpace inside the container
 
-       $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
+        $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
     
 Step-14) Once compiled the task' alias is available.Install the java webapps inside the container.
-
         
         $ task fresh_install
        
@@ -118,13 +136,40 @@ Step-15) Now create a user for the DSpace
 
         $ dspace create-administrator
         
+Step-16) Create web application shortcuts, type the followings
+
+        $ cd $CATALINA_HOME/webapps
+        
+        $ sudo ln -s /srv/dspace/webapps/solr
+        
+        $ sudo ln -s /srv/dspace/webapps/rest
+        
+        $ sudo ln -s /srv/dspace/webapps/oai
+        
+        $ sudo ln -s /srv/dspace/webapps/sword
+        
+Step-17) Configure the default ROOT webapp
+
+        $ sudo rm -rf /usr/local/tomcat/webapps/ROOT
+        
+        $ cd /usr/local/tomcat/webapps
+        
+        $ sudo ln -s /srv/dspace/webapps/xmlui ROOT
+        
+        $ cd /srv/dspace-src
+
 Step -16) Staring the server
 
-       $ tomcat start && catalina.out
+        $ tomcat start && catalina.out
+       
+Step-17) Just start tomcat with the jpda option
+
+        $ tomcat jpda start
+       
  
  -----------------------------------------------------------------------------------------------------------------------
  
-             Now open http://localhost:8080/xmlui/ , you can access the DSpace xml UI.
+             Now open http://localhost:8080/ , you can access the DSpace XMLUI.
       
       
 References:

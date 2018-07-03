@@ -1,9 +1,7 @@
-# DSpace-Docker-Installation
+# DSpace-Installation
 
+# 1. Steps for installation of DSpace with Docker  
 
-                              Steps for installation of DSpace with Docker
-                              
-                              
 # Requirements
 
       Basic requirement for this installation process:
@@ -176,7 +174,7 @@ References:
     
     
 
-# DSpace-Installation Steps Without Docker
+# 2. DSpace-Installation Steps Without Docker
 
 1. Install Ubuntu 
         NOTE:

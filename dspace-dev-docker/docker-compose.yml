@@ -1,0 +1,34 @@
+version: '2'
+services:
+  # Postgres database
+  postgres:
+    build: ./postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=dspace
+      - POSTGRES_USER=dspace
+      - POSTGRES_PASSWORD=dspace
+    tty: true
+    stdin_open: true
+  # DSpace
+  dspace-dev:
+    build: .
+    ports:
+      - 8080:8080
+      - 8000:8000
+      #Remote Debugger
+      - 1043:1043
+    depends_on:
+      - postgres
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      # Path on the host, relative to the Compose file
+      - ./dspace-build:/srv/dspace
+      - ./dspace-src:/srv/dspace-src
+      - ./m2-repo:/home/developer/.m2
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: /bin/bash
+    tty: true
+    stdin_open: true

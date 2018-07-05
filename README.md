@@ -117,6 +117,12 @@ Step-12) Once launched, to get into developer account, follow the step.
 Step-13) Compilation of DSpace inside the container
 
         $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
+        
+   NOTE:
+            If you encounter "BUILD FAILED" message, it represents that some tasks failed to
+            execute during the building of DSpace XML-UI Mirage2 Theme. In that case,execute the below command.
+        
+        $ mvn clean -U package -Dmirage2.on=true?
     
 Step-14) Once compiled the task' alias is available.Install the java webapps inside the container.
         

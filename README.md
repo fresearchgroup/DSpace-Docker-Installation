@@ -110,6 +110,16 @@ Step-11) Launch Docker-Compose
        
         $ sudo docker-compose up -d
         
+   NOTE: After this Step, following type of Errors may occur.
+        
+        CASE : 1) Error: "docker bind failed: port is already allocated".
+                  For this Error you have to free/Unbind the required port
+                  or just change the correspond port in the docker-compose.yml file and in Dockerfile.
+                  
+        CASE : 2) Error: "BUILD FAILED"
+                  This error is due to low Internet Speed.
+          
+        
 Step-12) Once launched, to get into developer account, follow the step.
         
         $ sudo docker attach dspace-dev-docker_dspace-dev_1
@@ -117,6 +127,14 @@ Step-12) Once launched, to get into developer account, follow the step.
 Step-13) Compilation of DSpace inside the container
 
         $ mvn -Dmirage2.on=true -Dmirage2.deps.included=false package
+        
+   NOTE: After this Step, following type of Errors may occur.
+   
+        CASE : 1) If you encounter "BUILD FAILED" message, it represents that some tasks failed to
+                  execute during the building of DSpace XML-UI Mirage2 Theme.
+                  In that case,execute the below command.
+        
+                  $ mvn clean -U package -Dmirage2.on=true?
     
 Step-14) Once compiled the task' alias is available.Install the java webapps inside the container.
         
@@ -160,6 +178,15 @@ Step-17) Just start tomcat with the jpda option
  -----------------------------------------------------------------------------------------------------------------------
  
              Now open http://localhost:8080/ , you can access the DSpace XMLUI.
+             
+             You can check the working of DSpace APIs using below command through terminal.
+        
+             $ curl http://localhost:8080/rest/test
+        
+             Response Example:
+             ------------------------------------
+             REST api is running.
+             ------------------------------
       
       
 References:
